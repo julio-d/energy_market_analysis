@@ -6,15 +6,27 @@ OMIE Market • Standalone BESS Arbitrage Analysis
 
 A Streamlit application for analyzing OMIE market historic data and calculating BESS arbitrage opportunities in that market.
 
-![dashboard plots](images/dashboard_plots.png)
-
-![arbitrage results](images/arbitrage_results.png)
-
 -----
 
 ## 📊 Project Overview
 
-This dashboard provides sophisticated analysis tools for energy professionals, researchers, and investors interested in the Iberian electricity market (Spain and Portugal). It combines market data visualization with simple BESS arbitrage calculations to understand possible opportunities.
+This dashboard provides analysis tools for energy professionals, researchers, and investors interested in the Iberian electricity market (Spain and Portugal). It combines market data visualization with simple BESS arbitrage calculations to understand possible opportunities.
+
+-----
+
+## 🖼️ Project screenshots:
+
+Flexible time range selection:
+![date range selection](images/date_range_selection.png)
+
+Market analysis plots:
+![dashboard plots](images/dashboard_plots.png)
+
+Arbitrage simulation results:
+![arbitrage results](images/arbitrage_results.png)
+
+Arbitrage benefits detail:
+![arbitrage benefits detail](images/arbitrage_breakdown.png)
 
 -----
 
@@ -75,12 +87,6 @@ This dashboard provides sophisticated analysis tools for energy professionals, r
       * System costs (€/MWh)
       * Efficiency rates
       * Degradation per cycle
-
-
-![date range flexible selection](images/date_range_selection.png)
-
-![arbitrage benefits detail](images/arbitrage_breakdown.png)
-
 
 -----
 
