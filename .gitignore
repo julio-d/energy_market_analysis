@@ -1,4 +1,30 @@
+# Virtual environment
 venv/
-__pycache__
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Environment variables
 .env
+.env.local
+
+# Documentation (if private)
 docs/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/

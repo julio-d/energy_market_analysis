@@ -16,21 +16,33 @@ A Streamlit web application for analyzing energy markets and battery storage arb
 - Financial analysis with ROI calculations
 - Interactive charts and statistics
 
-## How to run
+## Setup
 
+1. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+2. Run the application:
 ```bash
 streamlit run main.py
 ```
+or
+```bash
+python run.py
+```
 
-## Main Components
+## Project Structure
 
-- `main.py` - Entry point and UI orchestration
-- `arbitrage_calculator.py` - Core arbitrage calculation logic
-- `data_loader.py` - OMIE data fetching
-- `ren_api.py` - REN API integration
-- `ui_components.py` - Streamlit UI components
-- `plotting_utils.py` - Chart generation utilities
-
-## Dependencies
-
-Requires Python with Streamlit, pandas, and other data analysis libraries (see venv for full list).
+```
+├── src/                    # Source code
+│   ├── main.py            # Main application logic
+│   ├── arbitrage_calculator.py  # Core arbitrage calculations
+│   ├── data_loader.py     # OMIE data fetching
+│   ├── ren_api.py         # REN API integration
+│   ├── ui_components.py   # Streamlit UI components
+│   └── plotting_utils.py  # Chart generation utilities
+├── docs/                  # Documentation
+├── main.py               # Entry point
+├── run.py                # Alternative runner script
+└── requirements.txt      # Python dependencies
