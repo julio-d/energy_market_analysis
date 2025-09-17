@@ -108,11 +108,58 @@ git clone https://github.com/julio-d/energy_market_analysis.git
 cd energy_market_analysis
 
 # Install dependencies
+# Clone the repository
+git clone https://github.com/julio-d/energy_market_analysis.git
+
+cd energy_market_analysis
+
+# Install dependencies
 pip install -r requirements.txt
 
 # Run the application
+# Run the application
 streamlit run main.py
 ```
+
+### Dependencies
+
+  * `streamlit>=1.28.0`
+  * `pandas>=1.5.0`
+  * `plotly>=5.15.0`
+  * `numpy>=1.24.0`
+
+-----
+
+## 🔮 Future Enhancements
+
+### Planned Features
+
+  * **Machine Learning Integration:** Price prediction models
+  * **BESS Revenue Stacking:** Simulation of new revenue sources for BESS
+  * **Multi-Market Support:** Other electricity markets
+
+### Technical Improvements
+
+  * **Database Integration:** Faster data retrieval, reduce API dependency
+  * **Microservices Architecture:** Containerized deployment
+
+-----
+
+## 📞 Contact & Support
+
+  * **Email:** julioduarte92@outlook.com
+
+-----
+
+## 📄 License
+
+This project is licensed under the MIT License - see the `LICENSE` file for details.
+
+-----
+
+Built with ❤️ for the energy transition
+
+-----
 
 ### Dependencies
 
