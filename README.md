@@ -137,7 +137,7 @@ streamlit run main.py
 
 ### Technical Improvements
 
-  * **Database Integration:** PostgreSQL/MongoDB support
+  * **Database Integration:** Faster data retrieval, reduce API dependency
   * **Microservices Architecture:** Containerized deployment
 
 -----
