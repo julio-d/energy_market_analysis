@@ -6,6 +6,10 @@ OMIE Market • Standalone BESS Arbitrage Analysis
 
 A Streamlit application for analyzing OMIE market historic data and calculating BESS arbitrage opportunities in that market.
 
+![dashboard plots](images/dashboard_plots.png)
+
+![arbitrage results](images/arbitrage_results.png)
+
 -----
 
 ## 📊 Project Overview
@@ -21,7 +25,6 @@ This dashboard provides sophisticated analysis tools for energy professionals, r
   * **📅 Flexible Time Ranges:** Totally customizable time ranges allow flexible analyses
   * **📊 Interactive Visualizations:** Plotly-powered charts and graphs to provide detailed data
   * **💰 Financial Modeling:** Degradation models, ROI calculations, and payback periods
-
 
 -----
 
@@ -72,6 +75,12 @@ This dashboard provides sophisticated analysis tools for energy professionals, r
       * System costs (€/MWh)
       * Efficiency rates
       * Degradation per cycle
+
+
+![date range flexible selection](images/date_range_selection.png)
+
+![arbitrage benefits detail](images/arbitrage_breakdown.png)
+
 
 -----
 
