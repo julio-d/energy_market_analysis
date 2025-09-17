@@ -43,7 +43,7 @@ Arbitrage benefits detail:
 ## 🔧 Technical Architecture
 
 ```
-📁 project/
+📁 src/
 ├── 🐍 main.py                  # Application entry point
 ├── ⚙️ config.py                # Configuration and styling
 ├── 🎨 ui_components.py         # User interface components
@@ -51,8 +51,8 @@ Arbitrage benefits detail:
 ├── 📈 plotting_utils.py        # Visualization functions
 ├── 🧮 statistics_utils.py      # Statistical calculations
 ├── ⚡ arbitrage_calculator.py  # Battery arbitrage algorithms
-├── 📋 omie_tab.py             # Market analysis tab
-└── 🔋 arbitrage_tab.py        # Arbitrage analysis tab
+├── 📋 omie_tab.py              # Market analysis tab
+└── 🔋 arbitrage_tab.py         # Arbitrage analysis tab
 ```
 -----
 
