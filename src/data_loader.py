@@ -1,4 +1,5 @@
 import os
+import re
 import logging
 from datetime import datetime
 
@@ -6,6 +7,23 @@ import pandas as pd
 import streamlit as st
 
 logger = logging.getLogger(__name__)
+
+
+def _sanitize(message: str) -> str:
+    """Strip the ENTSO-E security token (and raw API key) from any string.
+
+    ENTSO-E errors echo the full request URL, which embeds ``securityToken=<key>``
+    in plaintext. We also scrub the raw key value in case it appears elsewhere.
+    """
+    text = str(message)
+    text = re.sub(r"securityToken=[^&\s]+", "securityToken=***", text, flags=re.IGNORECASE)
+    try:
+        key = _get_entsoe_key()
+    except Exception:
+        key = None
+    if key:
+        text = text.replace(key, "***")
+    return text
 
 # Mapping from the app's country label to ENTSO-E bidding-zone code.
 # entsoe-py resolves short codes like "ES" / "PT" internally.
@@ -142,9 +160,10 @@ def load_mibel_data(start_date, end_date, country="Spain"):
         df = _load_via_entsoe(start_date, end_date, country)
         return df
     except Exception as e:
-        logger.warning("ENTSO-E fetch failed, falling back to MIBEL library: %s", e)
+        safe_err = _sanitize(e)
+        logger.warning("ENTSO-E fetch failed, falling back to MIBEL library: %s", safe_err)
         st.warning(
-            f"ENTSO-E unavailable: {e}. Falling back to MIBEL library."
+            f"ENTSO-E unavailable: {safe_err}. Falling back to MIBEL library."
         )
 
     # MIBEL-library fallback.
@@ -154,5 +173,5 @@ def load_mibel_data(start_date, end_date, country="Spain"):
             return None
         return df
     except Exception as e:
-        st.error(f"Error loading data from MIBEL library fallback: {e}")
+        st.error(f"Error loading data from MIBEL library fallback: {_sanitize(e)}")
         return None
