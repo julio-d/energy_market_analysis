@@ -143,7 +143,7 @@ def _load_via_mibel_library(start_date, end_date, country):
     return result_df
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def load_mibel_data(start_date, end_date, country="Spain"):
     """Load MIBEL Iberian day-ahead prices.
 
