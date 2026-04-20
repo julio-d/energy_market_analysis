@@ -1,10 +1,10 @@
 # ⚡ Energy Markets Analysis Dashboard
 
-OMIE Market • Standalone BESS Arbitrage Analysis
+MIBEL Market • Standalone BESS Arbitrage Analysis
 
 **Explore the project in [omiemarketanalysis.streamlit.app](https://omiemarketanalysis.streamlit.app/)**
 
-A Streamlit application for analyzing OMIE market historic data and calculating BESS arbitrage opportunities in that market.
+A Streamlit application for analyzing MIBEL market historic data and calculating BESS arbitrage opportunities in that market.
 
 -----
 
@@ -32,7 +32,7 @@ Arbitrage benefits detail:
 
 ## 🎯 Key Features
 
-  * **📈 OMIE Market Analysis:** Electricity prices monitoring and visualization for Spain and Portugal
+  * **📈 MIBEL Market Analysis:** Electricity prices monitoring and visualization for Spain and Portugal
   * **🔋 BESS Arbitrage Calculator:** Benefit calculator for BESS in arbitrage mode doing 1 or 2 cycles/day
   * **📅 Flexible Time Ranges:** Totally customizable time ranges allow flexible analyses
   * **📊 Interactive Visualizations:** Plotly-powered charts and graphs to provide detailed data
@@ -51,7 +51,7 @@ Arbitrage benefits detail:
 ├── 📈 plotting_utils.py        # Visualization functions
 ├── 🧮 statistics_utils.py      # Statistical calculations
 ├── ⚡ arbitrage_calculator.py  # Battery arbitrage algorithms
-├── 📋 omie_tab.py              # Market analysis tab
+├── 📋 mibel_tab.py             # Market analysis tab
 └── 🔋 arbitrage_tab.py         # Arbitrage analysis tab
 ```
 -----
@@ -63,13 +63,13 @@ Arbitrage benefits detail:
 | **Frontend** | Streamlit | Interactive web application |
 | **Data Processing** | Pandas | Data manipulation and analysis |
 | **Visualizations** | Plotly | Interactive charts and graphs |
-| **Market Data** | OMIE API | Iberian electricity market data |
+| **Market Data** | ENTSO-E Transparency Platform (primary) + MIBEL library (fallback) | Iberian electricity market data |
 
 -----
 
 ## 📋 Features Breakdown
 
-### 1\. OMIE Market Analysis
+### 1\. MIBEL Market Analysis
 
   * **Price Monitoring:** Electricity prices from the Iberian market
   * **Multiple Aggregation Levels:** Hourly, daily, monthly, and yearly views
@@ -131,10 +131,18 @@ cd energy_market_analysis
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the application
+# Configure the ENTSO-E API key (primary data source)
+#   Create a file .streamlit/secrets.toml with:
+#   ENTSOE_API_KEY = "your-entsoe-key"
+#   (Request a key at https://transparency.entsoe.eu/ user settings.)
+
 # Run the application
 streamlit run main.py
 ```
+
+> If ENTSO-E is unreachable or the key is missing, the app automatically
+> falls back to the MIBEL library importer. The current data source is shown in a
+> small caption under each plot.
 
 ### Dependencies
 

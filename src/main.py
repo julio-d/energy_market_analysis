@@ -5,8 +5,8 @@ from datetime import datetime, date, timedelta
 try:
     from config import configure_page
     from ui_components import render_header, render_date_selection, render_country_selection, render_load_data_button
-    from data_loader import load_omie_data
-    from omie_tab import render_omie_tab
+    from data_loader import load_mibel_data
+    from mibel_tab import render_mibel_tab
     from arbitrage_tab import render_arbitrage_tab
 except ImportError as e:
     st.error(f"Import error: {e}")
@@ -33,11 +33,11 @@ def main():
     render_load_data_button(start_date, end_date, country)
     
     # Create tabs
-    tab1, tab2 = st.tabs(["⚡ OMIE Market", "🔋 BESS Arbitrage"])
+    tab1, tab2 = st.tabs(["⚡ Spot Market", "🔋 BESS Arbitrage"])
     
     # Render tabs
     with tab1:
-        render_omie_tab()
+        render_mibel_tab()
     
     with tab2:
         render_arbitrage_tab()
@@ -63,7 +63,7 @@ def render_footer():
     st.markdown("""
     <div style="text-align: center; color: #666; font-size: 0.8rem; margin-top: 2rem;">
         ⚡ Energy Markets Analysis Dashboard v2.0<br>
-        OMIE Market • Standalone BESS Arbitrage Analysis
+        MIBEL Market • Standalone BESS Arbitrage Analysis
     </div>
     """, unsafe_allow_html=True)
 

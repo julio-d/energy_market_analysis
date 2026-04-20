@@ -1,11 +1,11 @@
 import pandas as pd
 
-def calculate_arbitrage_benefits(omie_data, analysis_type, battery_capacity_mwh, efficiency, 
+def calculate_arbitrage_benefits(mibel_data, analysis_type, battery_capacity_mwh, efficiency, 
                                 battery_cost_per_mwh, degradation_per_cycle):
     """Calculate arbitrage benefits for battery storage"""
     
     # Calculate daily max-min differences for each day
-    df = omie_data.copy()
+    df = mibel_data.copy()
     df['date'] = pd.to_datetime(df.index).date
     
     if analysis_type == "1 Cycle":

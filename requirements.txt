@@ -5,7 +5,10 @@ numpy>=1.24.0
 plotly>=5.15.0
 requests>=2.31.0
 
-# OMIE Data library
+# ENTSO-E Transparency Platform (primary data source)
+entsoe-py>=0.6.0
+
+# MIBEL library (OMIEData package, used as fallback when ENTSO-E is unavailable)
 OMIEData
 
 # Optional: For better performance and additional features

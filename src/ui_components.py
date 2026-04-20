@@ -5,7 +5,7 @@ from config import get_button_styles
 def render_header():
     """Render the main header"""
     st.title("⚡ Energy Markets Analysis")
-    st.markdown("**OMIE Market • Standalone BESS Arbitrage Analysis**")
+    st.markdown("**MIBEL Market • Standalone BESS Arbitrage Analysis**")
 
 def render_date_selection():
     """Render date selection UI and return selected dates"""

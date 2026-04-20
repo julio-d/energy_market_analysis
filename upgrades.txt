@@ -1,0 +1,15 @@
+CONSUMPTION PERIODS
+[ ] Create a csv with the consumption cycles hours 
+[ ] Create a script that adds a column to the data df with the cycles and calculates the average price of each consumption period
+
+PRICE FORECASTS
+[ ] Plan the arquitecture necessary to implement a forecasting pipeline 
+[ ] Database with last X years
+[ ] Calculation of features (moment of the forecast or store in DB?)
+[ ] Search how to plan scheduled actions like storage of new data or forecasts trigger (and implement it)
+[ ] Develop the forecasting model testing and study (MLFlow or other more up to date tool)
+[ ] Put the forecast for a spcified date in the dashboard (24h after the last timestamp of the selected range if it's something quick to run)
+
+BESS OPTIMIZATION
+[ ] Create a simple optimization model to run the arbitrage 
+[ ] Improve the detail about the BESS with physical constraints and financial inputs

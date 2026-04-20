@@ -1,8 +1,8 @@
 import pandas as pd
 import plotly.express as px
 
-def create_price_plot(data, title, aggregation="none"):
-    """Create interactive price plot"""
+def create_price_plot(data, title, aggregation="none", forecast_data=None):
+    """Create interactive price plot with optional forecast overlay for future timestamps (hourly view only)"""
     if data is None or data.empty:
         return None
     
@@ -23,12 +23,24 @@ def create_price_plot(data, title, aggregation="none"):
         fig = px.line(df_agg, x='year', y='price', title=f"{title} - Yearly Average")
     else:
         fig = px.line(df, x=df.index, y='price', title=f"{title} - Price Evolution")
+        fig.update_traces(name='Historical', showlegend=True,
+                          hovertemplate='Historical: %{y:.2f} €/MWh<br>%{x}<extra></extra>')
+        # Overlay forecast if provided and not empty
+        if forecast_data is not None and not forecast_data.empty:
+            fig.add_scatter(
+                x=forecast_data.index,
+                y=forecast_data['price'],
+                mode='lines',
+                name='Forecast',
+                line=dict(dash='dash', color='orange', width=2),
+                hovertemplate='Forecast: %{y:.2f} €/MWh<br>%{x}<extra></extra>'
+            )
     
     # Update axis labels
     fig.update_layout(
         xaxis_title="Date/Time",
         yaxis_title="Price (€/MWh)",
-        hovermode='x unified'
+        hovermode='closest' if (aggregation == "none" and forecast_data is not None and not forecast_data.empty) else 'x unified'
     )
     
     return fig
@@ -56,6 +68,47 @@ def create_average_day_plot(data, title):
     )
     
     return fig
+
+def create_price_histogram_plot(bin_edges, hours, title, bin_width=5.0):
+    """Create a bar chart of hours spent per price bin.
+
+    ``bin_edges`` has length ``len(hours) + 1``. Bins are displayed as
+    ``[low, high)`` intervals. Returns None for empty input.
+    """
+    if bin_edges is None or len(bin_edges) < 2 or hours is None or len(hours) == 0:
+        return None
+
+    lows = bin_edges[:-1]
+    highs = bin_edges[1:]
+    labels = [f"[{lo:g}, {hi:g})" for lo, hi in zip(lows, highs)]
+    centers = [(lo + hi) / 2 for lo, hi in zip(lows, highs)]
+
+    df_hist = pd.DataFrame({
+        "bin": labels,
+        "center": centers,
+        "low": lows,
+        "high": highs,
+        "hours": hours,
+    })
+
+    fig = px.bar(
+        df_hist,
+        x="center",
+        y="hours",
+        title=title,
+        custom_data=["low", "high"],
+    )
+    fig.update_traces(
+        width=bin_width * 0.95,
+        hovertemplate="Price: [%{customdata[0]:g}, %{customdata[1]:g}) €/MWh<br>Hours: %{y:.2f}<extra></extra>",
+    )
+    fig.update_layout(
+        xaxis_title="Price Bin (€/MWh)",
+        yaxis_title="Hours",
+        bargap=0.05,
+    )
+    return fig
+
 
 def create_arbitrage_plot(data, title):
     """Create daily arbitrage potential plot"""
