@@ -13,17 +13,22 @@ def display_key_stats(data, show_arbitrage=True):
     min_price = data['price'].min()
     
     # Calculate arbitrage value
+    avg_daily_max = None
+    avg_daily_min = None
     if show_arbitrage:
         df = data.copy()
         df['date'] = pd.to_datetime(df.index).date
         daily_stats = df.groupby('date')['price'].agg(['min', 'max'])
         daily_stats['arbitrage'] = daily_stats['max'] - daily_stats['min']
         arbitrage_value = daily_stats['arbitrage'].mean()
+        avg_daily_max = daily_stats['max'].mean()
+        avg_daily_min = daily_stats['min'].mean()
     else:
         arbitrage_value = data['price'].std()
     
     # Display using HTML from config
-    html = get_summary_stats_html(avg_price, max_price, min_price, arbitrage_value, show_arbitrage)
+    html = get_summary_stats_html(avg_price, max_price, min_price, arbitrage_value, show_arbitrage,
+                                  avg_daily_max=avg_daily_max, avg_daily_min=avg_daily_min)
     st.markdown(html, unsafe_allow_html=True)
     
     return arbitrage_value

@@ -60,33 +60,48 @@ def get_stats_card_html(title, value, subtitle="", color="#ccc"):
     </div>
     """
 
-def get_summary_stats_html(avg_price, max_price, min_price, arbitrage_value, show_arbitrage=True):
+def get_summary_stats_html(avg_price, max_price, min_price, arbitrage_value, show_arbitrage=True,
+                           avg_daily_max=None, avg_daily_min=None):
     """Generate HTML for summary statistics"""
     arbitrage_label = "Avg Daily Arbitrage" if show_arbitrage else "Price Volatility"
-    
-    return f"""
-    <div style="background-color: #1e1e1e; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
-        <h4 style="color: white; margin-bottom: 1rem;">Summary Statistics</h4>
-        <div style="display: flex; justify-content: space-between; color: #ccc;">
-            <div>
-                <div style="font-size: 0.9rem; color: #888;">Average Price</div>
-                <div style="font-size: 1.5rem; font-weight: bold; color: white;">{avg_price:.2f} €/MWh</div>
-            </div>
-            <div>
-                <div style="font-size: 0.9rem; color: #888;">Maximum Price</div>
-                <div style="font-size: 1.5rem; font-weight: bold; color: white;">{max_price:.2f} €/MWh</div>
-            </div>
-            <div>
-                <div style="font-size: 0.9rem; color: #888;">Minimum Price</div>
-                <div style="font-size: 1.5rem; font-weight: bold; color: white;">{min_price:.2f} €/MWh</div>
-            </div>
-            <div>
-                <div style="font-size: 0.9rem; color: #888;">{arbitrage_label}</div>
-                <div style="font-size: 1.5rem; font-weight: bold; color: white;">{arbitrage_value:.2f} €/MWh</div>
-            </div>
-        </div>
-    </div>
-    """
+
+    def _stat(label, value):
+        return (
+            '<div>'
+            f'<div style="font-size: 0.9rem; color: #888;">{label}</div>'
+            f'<div style="font-size: 1.5rem; font-weight: bold; color: white;">{value:.2f} €/MWh</div>'
+            '</div>'
+        )
+
+    two_rows = show_arbitrage and avg_daily_max is not None and avg_daily_min is not None
+    if two_rows:
+        cols = 3
+        first_row_inner = _stat("Average Price", avg_price) + _stat("Maximum Price", max_price) + _stat("Minimum Price", min_price)
+        second_row_inner = (
+            _stat(arbitrage_label, arbitrage_value)
+            + _stat("Avg Daily Max Price", avg_daily_max)
+            + _stat("Avg Daily Min Price", avg_daily_min)
+        )
+        second_row = (
+            f'<div style="display: grid; grid-template-columns: repeat({cols}, 1fr); gap: 1rem; color: #ccc; margin-top: 1rem;">'
+            f'{second_row_inner}</div>'
+        )
+    else:
+        cols = 4
+        first_row_inner = (
+            _stat("Average Price", avg_price)
+            + _stat("Maximum Price", max_price)
+            + _stat("Minimum Price", min_price)
+            + _stat(arbitrage_label, arbitrage_value)
+        )
+        second_row = ""
+
+    return (
+        '<div style="background-color: #1e1e1e; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">'
+        '<h4 style="color: white; margin-bottom: 1rem;">Summary Statistics</h4>'
+        f'<div style="display: grid; grid-template-columns: repeat({cols}, 1fr); gap: 1rem; color: #ccc;">'
+        f'{first_row_inner}</div>{second_row}</div>'
+    )
 
 def get_arbitrage_results_html(analysis_type, total_benefit, avg_daily_benefit, total_days, 
                                battery_capacity_mwh, efficiency, degradation_per_cycle,
