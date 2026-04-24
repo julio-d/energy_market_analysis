@@ -2,7 +2,7 @@
 
 MIBEL Market • Standalone BESS Arbitrage Analysis
 
-**Explore the project in [omiemarketanalysis.streamlit.app](https://omiemarketanalysis.streamlit.app/)**
+**Explore the project in [energymarketanalysis.streamlit.app](https://omiemarketanalysis.streamlit.app/)**
 
 A Streamlit application for analyzing MIBEL market historic data and calculating BESS arbitrage opportunities in that market.
 
