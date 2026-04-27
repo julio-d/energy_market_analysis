@@ -162,8 +162,9 @@ def load_mibel_data(start_date, end_date, country="Spain"):
     except Exception as e:
         safe_err = _sanitize(e)
         logger.warning("ENTSO-E fetch failed, falling back to MIBEL library: %s", safe_err)
-        st.warning(
-            f"ENTSO-E unavailable: {safe_err}. Falling back to MIBEL library."
+        st.info(
+            "Primary data source is temporarily unavailable. "
+            "Loading prices from the backup source instead..."
         )
 
     # MIBEL-library fallback.
@@ -173,5 +174,9 @@ def load_mibel_data(start_date, end_date, country="Spain"):
             return None
         return df
     except Exception as e:
-        st.error(f"Error loading data from MIBEL library fallback: {_sanitize(e)}")
+        logger.exception("MIBEL library fallback failed: %s", _sanitize(e))
+        st.error(
+            "Could not load market data right now. "
+            "Please try again in a few minutes or pick a different date range."
+        )
         return None
