@@ -14,6 +14,7 @@ from price_distribution import (
     count_hours_matching_conditions,
     infer_step_hours,
 )
+from llm_chat import render_chat_tab
 
 def render_mibel_tab():
     """Render the MIBEL Market analysis tab"""
@@ -202,15 +203,18 @@ def render_mibel_tab():
             )
             band_table = compute_band_averages(mibel_data, tipo_ciclo)
             if band_table is not None and not band_table.empty:
-                st.dataframe(band_table, hide_index=True, use_container_width=False)
+                st.dataframe(band_table, hide_index=True, use_container_width=True)
             else:
                 st.info("No tariff band data available for the selected cycle.")
+            st.divider()
+            render_chat_tab(mibel_data, st.session_state.submitted_country)
+
+            # (smoke-test expander removed)
 
         else:
             st.error("⚠️ Unable to load MIBEL data. Please check the data source connection.")
     else:
         st.info("🔄 Please select your date range and country, then click 'Load Data' to view market analysis.")
-
 def _render_source_caption(df):
     """Render a very small caption under a plot indicating the data provider."""
     source = df.attrs.get("source", "n/a") if df is not None else "n/a"
