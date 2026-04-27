@@ -203,7 +203,7 @@ def render_mibel_tab():
             )
             band_table = compute_band_averages(mibel_data, tipo_ciclo)
             if band_table is not None and not band_table.empty:
-                st.dataframe(band_table, hide_index=True, use_container_width=True)
+                st.dataframe(band_table, hide_index=True, use_container_width=False)
             else:
                 st.info("No tariff band data available for the selected cycle.")
             st.divider()
