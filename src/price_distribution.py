@@ -74,18 +74,19 @@ _OPERATORS = {
 
 def count_hours_matching(df: pd.DataFrame, operator: str, threshold: float) -> Tuple[float, float]:
     """Return ``(matching_hours, total_hours)`` for a single condition."""
-    return count_hours_matching_conditions(df, [(operator, threshold)])
+    matching_hours, total_hours, _ = count_hours_matching_conditions(df, [(operator, threshold)])
+    return matching_hours, total_hours
 
 
-def count_hours_matching_conditions(df: pd.DataFrame, conditions) -> Tuple[float, float]:
-    """Return ``(matching_hours, total_hours)`` for an AND of conditions.
+def count_hours_matching_conditions(df: pd.DataFrame, conditions) -> Tuple[float, float, float]:
+    """Return ``(matching_hours, total_hours, avg_price)`` for an AND of conditions.
 
     ``conditions`` is an iterable of ``(operator, threshold)`` pairs.
     Operators must be in ``>``, ``<``, ``>=``, ``<=``, ``=``.
     An empty conditions list matches every sample.
     """
     if df is None or df.empty or "price" not in df.columns:
-        return 0.0, 0.0
+        return 0.0, 0.0, 0.0
 
     step_hours = infer_step_hours(df)
     prices = df["price"].dropna()
@@ -97,4 +98,11 @@ def count_hours_matching_conditions(df: pd.DataFrame, conditions) -> Tuple[float
             raise ValueError(f"Unsupported operator: {operator}")
         mask &= _OPERATORS[operator](prices, threshold)
     matching_hours = float(mask.sum()) * step_hours
-    return matching_hours, total_hours
+    
+    # Calculate average price of matching hours
+    if matching_hours > 0:
+        avg_price = float(prices[mask].mean())
+    else:
+        avg_price = 0.0
+    
+    return matching_hours, total_hours, avg_price

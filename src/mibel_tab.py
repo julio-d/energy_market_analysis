@@ -166,25 +166,28 @@ def render_mibel_tab():
                         key="mibel_price_query_val2",
                     )
 
-            run_query = st.button("Run", key="mibel_price_query_run")
+            run_col, _ = st.columns([0.1, 0.9])
+            with run_col:
+                run_query = st.button("Run", key="mibel_price_query_run")
 
             if run_query:
                 conditions = [(operator1, float(threshold1))]
                 if use_second:
                     conditions.append((operator2, float(threshold2)))
-                matching_hours, total_hours = count_hours_matching_conditions(
+                matching_hours, total_hours, avg_price = count_hours_matching_conditions(
                     mibel_data, conditions
                 )
                 pct = (matching_hours / total_hours * 100.0) if total_hours > 0 else 0.0
                 condition_label = " AND ".join(
                     f"price {op} {val:g} €/MWh" for op, val in conditions
                 )
-                m1, m2 = st.columns(2)
+                m1, m2, m3 = st.columns(3)
                 m1.metric(
                     f"Hours where {condition_label}",
                     f"{matching_hours:.2f} h",
                 )
                 m2.metric("Share of period", f"{pct:.2f} %")
+                m3.metric("Average price", f"{avg_price:.2f} €/MWh")
                 if any(op == "=" for op, _ in conditions):
                     st.caption(
                         "Note: '=' uses exact equality; raw floating-point prices rarely match exactly."
