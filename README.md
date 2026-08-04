@@ -34,6 +34,7 @@ Arbitrage benefits detail:
 
   * **📈 MIBEL Market Analysis:** Electricity prices monitoring and visualization for Spain and Portugal
   * **🔋 BESS Arbitrage Calculator:** Benefit calculator for BESS in arbitrage mode doing 1 or 2 cycles/day
+  * **☀️ PV Plant Simulation:** PVGIS API integration for 1 MWp photovoltaic generation timeseries, captured market price calculation, capture rate, sun hour statistics, and shaded price plots
   * **📅 Flexible Time Ranges:** Totally customizable time ranges allow flexible analyses
   * **📊 Interactive Visualizations:** Plotly-powered charts and graphs to provide detailed data
   * **💰 Financial Modeling:** Degradation models, ROI calculations, and payback periods
@@ -52,7 +53,8 @@ Arbitrage benefits detail:
 ├── 🧮 statistics_utils.py      # Statistical calculations
 ├── ⚡ arbitrage_calculator.py  # Battery arbitrage algorithms
 ├── 📋 mibel_tab.py             # Market analysis tab
-└── 🔋 arbitrage_tab.py         # Arbitrage analysis tab
+├── 🔋 arbitrage_tab.py         # Arbitrage analysis tab
+└── ☀️ pv_plant_tab.py          # PV Plant simulation & captured price tab
 ```
 -----
 
@@ -87,6 +89,13 @@ Arbitrage benefits detail:
       * System costs (€/MWh)
       * Efficiency rates
       * Degradation per cycle
+
+### 3\. PV Plant Simulation & Captured Price Analysis
+
+  * **PVGIS API Integration:** Generates 1 MWp photovoltaic generation timeseries profiles based on GPS coordinates or location presets (Porto, Lisbon, Coimbra, Faro, Madrid, Seville, Barcelona, Malaga, or Custom)
+  * **Captured Market Price & Capture Rate:** Computes volume-weighted average price received during solar generation hours vs. baseload price
+  * **Sun Hours Metrics:** Total, average daily, maximum, and minimum sun hours over the selected period (accounting for mixed hourly and 15-minute market data resolution)
+  * **Interactive Shaded Price Plot:** Visualizes hourly/15-minute market prices with transparent gold/yellow background shading highlighting active solar production hours
 
 -----
 
