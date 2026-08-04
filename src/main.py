@@ -8,6 +8,7 @@ try:
     from data_loader import load_mibel_data
     from mibel_tab import render_mibel_tab
     from arbitrage_tab import render_arbitrage_tab
+    from pv_plant_tab import render_pv_plant_tab
 except ImportError as e:
     st.error(f"Import error: {e}")
     st.error("Please ensure all required modules are in the same directory")
@@ -33,7 +34,7 @@ def main():
     render_load_data_button(start_date, end_date, country)
     
     # Create tabs
-    tab1, tab2 = st.tabs(["⚡ Spot Market", "🔋 BESS Arbitrage"])
+    tab1, tab2, tab3 = st.tabs(["⚡ Spot Market", "🔋 BESS Arbitrage", "☀️ PV Plant"])
     
     # Render tabs
     with tab1:
@@ -41,6 +42,9 @@ def main():
     
     with tab2:
         render_arbitrage_tab()
+        
+    with tab3:
+        render_pv_plant_tab()
     
     # Footer
     render_footer()

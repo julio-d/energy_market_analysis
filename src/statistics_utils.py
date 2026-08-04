@@ -33,6 +33,30 @@ def display_key_stats(data, show_arbitrage=True):
     
     return arbitrage_value
 
+def calculate_average_price_matching_hour_conditions(data, conditions):
+    """Calculate the average price for data points matching specific hour conditions."""
+    if data is None or data.empty:
+        return 0.0
+
+    filtered_data = data.copy()
+    
+    for operator, threshold in conditions:
+        if operator == ">":
+            filtered_data = filtered_data[filtered_data.index.hour > threshold]
+        elif operator == "<":
+            filtered_data = filtered_data[filtered_data.index.hour < threshold]
+        elif operator == ">=":
+            filtered_data = filtered_data[filtered_data.index.hour >= threshold]
+        elif operator == "<=":
+            filtered_data = filtered_data[filtered_data.index.hour <= threshold]
+        elif operator == "=":
+            filtered_data = filtered_data[filtered_data.index.hour == threshold]
+            
+    if filtered_data.empty:
+        return 0.0
+    
+    return filtered_data["price"].mean()
+
 def calculate_summary_statistics(daily_stats):
     """Calculate summary statistics for arbitrage analysis"""
     if daily_stats.empty:

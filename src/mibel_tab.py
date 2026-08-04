@@ -6,7 +6,7 @@ from plotting_utils import (
     create_arbitrage_plot,
     create_price_histogram_plot,
 )
-from statistics_utils import display_key_stats
+from statistics_utils import display_key_stats, calculate_average_price_matching_hour_conditions
 from forecast_utils import generate_hourly_forecast, calculate_forecast_hours
 from tariff_utils import get_tipo_ciclo_options, compute_band_averages
 from price_distribution import (
@@ -192,6 +192,73 @@ def render_mibel_tab():
                     st.caption(
                         "Note: '=' uses exact equality; raw floating-point prices rarely match exactly."
                     )
+
+            st.divider()
+            st.markdown("#### 🔎 Prices matching hours conditions")
+            operators = [">", "<", ">=", "<=", "="]
+
+            q_hr_col1, q_hr_col2 = st.columns(2)
+            with q_hr_col1:
+                hour_operator1 = st.selectbox(
+                    "Operator",
+                    operators,
+                    key="mibel_hour_query_op",
+                )
+            with q_hr_col2:
+                hour_threshold1 = st.number_input(
+                    "Hour (0-23)",
+                    value=0,
+                    min_value=0,
+                    max_value=23,
+                    step=1,
+                    format="%d",
+                    key="mibel_hour_query_val",
+                )
+
+            use_second_hour_condition = st.checkbox(
+                "Add second condition (AND)",
+                key="mibel_hour_query_use2",
+            )
+            hour_operator2 = None
+            hour_threshold2 = None
+            if use_second_hour_condition:
+                q2_hr_col1, q2_hr_col2 = st.columns(2)
+                with q2_hr_col1:
+                    hour_operator2 = st.selectbox(
+                        "Operator (2nd)",
+                        operators,
+                        index=1,
+                        key="mibel_hour_query_op2",
+                    )
+                with q2_hr_col2:
+                    hour_threshold2 = st.number_input(
+                        "Hour (0-23) (2nd)",
+                        value=0,
+                        min_value=0,
+                        max_value=23,
+                        step=1,
+                        format="%d",
+                        key="mibel_hour_query_val2",
+                    )
+
+            run_hr_col, _ = st.columns([0.1, 0.9])
+            with run_hr_col:
+                run_hour_query = st.button("Run", key="mibel_hour_query_run")
+
+            if run_hour_query:
+                hour_conditions = [(hour_operator1, int(hour_threshold1))]
+                if use_second_hour_condition:
+                    hour_conditions.append((hour_operator2, int(hour_threshold2)))
+                
+                avg_price_for_hours = calculate_average_price_matching_hour_conditions(
+                    mibel_data, hour_conditions
+                )
+
+                hour_condition_label = " AND ".join(
+                    f"hour {op} {val}" for op, val in hour_conditions
+                )
+                
+                st.metric(f"Average price where {hour_condition_label}", f"{avg_price_for_hours:.2f} €/MWh")
 
             # Tariff bands (Portuguese consumption periods)
             st.divider()
