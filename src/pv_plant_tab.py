@@ -88,17 +88,12 @@ def render_pv_plant_tab():
     """Render the PV Plant Simulation and Captured Price Tab"""
     st.subheader("☀️ PV Plant Simulation & Captured Price Analysis", help="Simulate a generic 1 MWp PV plant using PVGIS coordinates and analyze captured market prices and sun hours.")
     
-    st.markdown("""
-    Select a location preset or choose 'Custom' to enter custom coordinates. The tool queries PVGIS for hourly generation profiles (1 MWp nominal), 
-    aligns them with the selected MIBEL market price period (matching market data frequency: hourly or 15-minute), calculates the **captured market price**, and displays sun hour statistics and shaded price charts.
-    """)
-    
     col1, col2, col3 = st.columns(3)
     
     city_presets = {
         "Porto (Portugal)": ("41.1579", "-8.6291"),
-        "Lisbon (Portugal)": ("38.7223", "-9.1393"),
         "Coimbra (Portugal)": ("40.2033", "-8.4103"),
+        "Lisbon (Portugal)": ("38.7223", "-9.1393"),
         "Faro (Portugal)": ("37.0194", "-7.9304"),
         "Madrid (Spain)": ("40.4168", "-3.7038"),
         "Seville (Spain)": ("37.3891", "-5.9845"),
@@ -255,6 +250,7 @@ def render_pv_plant_tab():
         
         # Display Metrics
         st.success(f"Simulation completed successfully for ({lat}, {lon})")
+        st.markdown("---")
         
         if total_energy_kwh >= 10_000_000:  # >= 10,000 MWh -> GWh
             gen_str = f"{total_energy_kwh / 1_000_000:,.0f} GWh"
@@ -287,8 +283,7 @@ def render_pv_plant_tab():
             
         st.markdown("---")
         st.markdown("### 📊 Market Prices with Solar Generation Shading")
-        st.markdown("The chart below shows market prices over the selected period. Hours with active sunlight/PV production are highlighted with transparent gold shading.")
-        st.markdown(f"<div style='font-size:0.8rem; color:#666; font-style:italic; margin-top:-0.5rem; margin-bottom:1rem;'>Note: Sun hours and generation shading are determined based on an active generation threshold of >{threshold:.1f} kW for the 1 MWp plant.</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='font-size:0.8rem; color:#666; font-style:italic; margin-top:-0.5rem; margin-bottom:1rem;'>PV production and the respective gold shading are determined based on an active generation threshold of >2% of the installed power.</div>", unsafe_allow_html=True)
         
         fig = go.Figure()
         
